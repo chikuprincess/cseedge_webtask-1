@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resume Maker</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Resume Maker</h1>
+        <form id="resume-form">
+            <div>
+                <label for="name">Name:</label>
+                <input type="text" id="name" name="name" required>
+            </div>
+            <div>
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" required>
+            </div>
+            <div>
+                <label for="phone">Phone:</label>
+                <input type="tel" id="phone" name="phone" required>
+            </div>
+            <div>
+                <label for="experience">Experience:</label>
+                <textarea id="experience" name="experience"></textarea>
+            </div>
+            <div>
+                <label for="education">Education:</label>
+                <textarea id="education" name="education"></textarea>
+            </div>
+            <div>
+                <label for="skills">Skills:</label>
+                <textarea id="skills" name="skills"></textarea>
+            </div>
+            <div>
+                <label for="certifications">Certifications:</label>
+                <textarea id="certifications" name="certifications"></textarea>
+            </div>
+            <div>
+                <label for="template">Template:</label>
+                <select id="template" name="template">
+                    <option value="entry">Entry Level</option>
+                    <option value="mid">Mid Level</option>
+                    <option value="senior">Senior Level</option>
+                </select>
+            </div>
+            <div>
+                <button type="button" onclick="generateResume()">Generate Resume</button>
+                <button type="button" onclick="exportToPDF()">Export to PDF</button>
+                <button type="button" onclick="exportToHTML()">Export to HTML</button>
+            </div>
+        </form>
+        <div id="resume-output"></div>
+    </div>
+    <style>
+        /* styles.css */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f0f0f0;
+    padding: 20px;
+}
+
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+form div {
+    margin-bottom: 15px;
+}
+
+label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+input, textarea, select {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+button {
+    padding: 10px 15px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+#resume-output {
+    margin-top: 20px;
+}
+
+    </style>
+    <script>
+        // scripts.js
+function generateResume() {
+    const name = document.getElementById('name').value;
+    const email = document.getElementById('email').value;
+    const phone = document.getElementById('phone').value;
+    const experience = document.getElementById('experience').value;
+    const education = document.getElementById('education').value;
+    const skills = document.getElementById('skills').value;
+    const certifications = document.getElementById('certifications').value;
+    const template = document.getElementById('template').value;
+
+    let resumeTemplate = `
+        <h2>${name}</h2>
+        <p>Email: ${email}</p>
+        <p>Phone: ${phone}</p>
+        <h3>Experience</h3>
+        <p>${experience}</p>
+        <h3>Education</h3>
+        <p>${education}</p>
+        <h3>Skills</h3>
+        <p>${skills}</p>
+        <h3>Certifications</h3>
+        <p>${certifications}</p>
+    `;
+
+    document.getElementById('resume-output').innerHTML = resumeTemplate;
+}
+
+function exportToPDF() {
+    // For PDF export, we will use a library like jsPDF
+    const doc = new jsPDF();
+    doc.fromHTML(document.getElementById('resume-output').innerHTML, 10, 10);
+    doc.save('resume.pdf');
+}
+
+function exportToHTML() {
+    const htmlContent = document.getElementById('resume-output').innerHTML;
+    const blob = new Blob([htmlContent], { type: 'text/html' });
+    const link = document.createElement('a');
+    link.href = URL.createObjectURL(blob);
+    link.download = 'resume.html';
+    link.click();
+}
+
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.3.1/jspdf.umd.min.js"></script>
+    <script src="scripts.js"></script>
+</body>
+</html>
